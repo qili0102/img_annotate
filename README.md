@@ -31,7 +31,7 @@ Run:
 
 Put this test_obj.py under the current object detection model folder. 
      
-Uncomment the model of your choosing start from line 139 (Only can apply one model at a time).
+Uncomment the model of your choosing start from line 168 (Only can apply one model at a time). (Actually, I found the faster_rcnn_inception_resnet_v2_atrous model is the most accurate one, but it took longer to do the object detection. It will be faster if integrates with GPU.)
      
 Leave your annotation website open (http://reactor.ctre.iastate.edu/nvidiacity/) to the biggest extent without affecting the terminal window.
      
