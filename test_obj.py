@@ -32,21 +32,45 @@ def get_screenshot():
 	im = pyautogui.screenshot(img_path)
 
 #choose labels-->default as cars
-def choose_labels():
+def choose_labels(_count):
 	# list_e = list(pyautogui.locateAllOnScreen('screenpng/labels.png'))
 	# for l in list_e:
 	# 	pyautogui.click(l[0]-960, l[1]-750)
 	# 	print(l[0], l[1])
 	#Gauss
-	global count
-	rounds = int((count+4) * (count+5) / 2)
-	for f in range(1,7):
+	# global count
+	rounds = int((_count) * (_count+1) / 2 + 1)
+	# j = 0
+	# for f in range(1,7):
+	# 	pyautogui.typewrite(['\t'])
+	# 	time.sleep(0.2)
+	pyautogui.click(269, 176)
+	for x in range(_count):
 		pyautogui.typewrite(['\t'])
-		time.sleep(0.5)
-	for f in range(rounds):
-		pyautogui.typewrite([' ', ' '])
-		pyautogui.typewrite(['\t'])
-		time.sleep(0.5)
+	# time.sleep(0.5)
+	# pyautogui.typewrite([' '])
+	# pyautogui.typewrite(['enter'])
+	# time.sleep(0.5)
+	# pyautogui.typewrite(['\t'])
+	# time.sleep(0.5)
+	# for f in range(rounds):
+		# pyautogui.typewrite(['\t'])
+		# time.sleep(0.5)
+	pyautogui.typewrite([' '])
+	pyautogui.typewrite(['enter'])
+	time.sleep(0.5)
+	pyautogui.typewrite(['\t'])
+	time.sleep(0.5)
+		# j += 1
+		# for fs in range(f):
+		# 	pyautogui.typewrite(['\t'])
+		# 	time.sleep(0.2)
+		# if j > int((count) * (count+1) / 2 + 1):
+		# 	for f in range(1,7):
+		# 		pyautogui.typewrite(['\t'])
+		# 		time.sleep(0.5)
+		# 	j = 0
+
 	# x = 1244
 	# y = 455
 	# while y < 742:
@@ -74,20 +98,25 @@ def load_image_into_numpy_array(image):
 
 #draw bounding boxes using mouse
 def draw_bounding_box(ymin, xmin, ymax, xmax):
+	pyautogui.hotkey('command', 'up')
 	im_width, im_height = pyautogui.size()
 	(left, right, top, bottom) = (xmin * im_width, xmax * im_width, ymin * im_height, ymax * im_height)
 	if right-left < 1000:
-		pyautogui.moveTo(left+2, top-2, duration=0.25);
+		if left<150:
+			left = 150
+		pyautogui.moveTo(left, top-2, duration=0.25);
 		print("move",pyautogui.position())
-		time.sleep(2)
-		pyautogui.dragRel(right-left, bottom-top+4, duration=0.5);
-		time.sleep(2)
+		time.sleep(1)
+		pyautogui.dragRel(right-left, bottom-top+4, duration=0.2);
+		time.sleep(1)
 		print("drag",pyautogui.position())
 		pyautogui.click(269, 176)
-		time.sleep(2)
+		time.sleep(1)
 		print("click",pyautogui.position())
 		global count
 		count = count+1
+		choose_labels(count)
+		pyautogui.click(269, 176)
 
 def draw_boxes_array(boxes, classes, scores, category_index, instance_masks=None, keypoints=None, max_boxes_to_draw=20, min_score_thresh=.5, agnostic_mode=False):
 	print("drw array")
@@ -136,11 +165,11 @@ def draw_boxes_array(boxes, classes, scores, category_index, instance_masks=None
 		draw_bounding_box(ymin, xmin, ymax, xmax)
 
 def load_models():
-	MODEL_NAME = 'faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017'
+	# MODEL_NAME = 'faster_rcnn_inception_resnet_v2_atrous_coco_11_06_2017'
 	# MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
 	# MODEL_NAME = 'ssd_inception_v2_coco_11_06_2017'
 	# MODEL_NAME = 'faster_rcnn_resnet101_coco_11_06_2017'
-	# MODEL_NAME = 'rfcn_resnet101_coco_11_06_2017'
+	MODEL_NAME = 'rfcn_resnet101_coco_11_06_2017'
 	# Path to frozen detection graph. This is the actual model that is used for the object detection.
 	PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 	# List of the strings that is used to add correct label for each box.
@@ -203,21 +232,17 @@ def next_frame():
 global i
 i = 0
 load_models()
-while i <= 464:
+while i <= 1017:
 	global count
 	count = 0
 	focus()
-	zoom_in()
+	# zoom_in()
 	get_screenshot()
 	get_recognize()
-	zoom_out()
-	choose_labels()
+	# zoom_out()
+	# choose_labels()
 	focus()
 	time.sleep(1)
 	next_frame()
 	time.sleep(2)
 	i+=1
-
-
-
-
