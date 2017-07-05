@@ -39,3 +39,4 @@ In terminal:
 
 	python3 test_obj.py
      
+This script will start annotate and select the first label "Car" then move to the next image. If you want to stop the scrpt, just open the terminal and press "crl+z".
